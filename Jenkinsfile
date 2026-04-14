@@ -4,23 +4,21 @@ pipeline {
     stages {
         stage('Build & Tag Docker Image') {
             steps {
-                script {
-                    dir('src') {
-
-                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker build -t suryadasari31/cartservice:latest ."
-                    }
-                        }
-                }
+                sh "docker build -t suryadasari31/cartservice:latest ."
             }
         }
         
         stage('Push Docker Image') {
             steps {
-                script {
-                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker push suryadasari31/cartservice:latest "
-                    }
+                withCredentials([usernamePassword(
+                    credentialsId: 'docker-cred',
+                    usernameVariable: 'USER',
+                    passwordVariable: 'PASS'
+                )]) {
+                    sh """
+                    echo $PASS | docker login -u $USER --password-stdin
+                    docker push suryadasari31/cartservice:latest
+                    """
                 }
             }
         }
