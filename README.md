@@ -159,3 +159,37 @@ Updated pipeline (OpenShift):
 ### Application URL
 
 https://frontend-suryadasari31-dev.apps.rm2.thpm.p1.openshiftapps.com
+
+---
+
+### Screenshots
+
+#### Application UI (OpenShift Route)
+
+![Application UI](./images/app-ui.png)
+
+#### OpenShift Pods (All Running)
+
+![OpenShift Pods](./images/openshift-pods.png)
+
+#### OpenShift Route Configuration
+
+![Routes](./images/routes.png)
+
+#### Jenkins Pipeline Execution
+
+![Jenkins Pipeline](./images/jenkins-pipeline.png)
+
+---
+### Conclusion
+
+This project successfully demonstrates the migration of a microservices application from EKS to OpenShift by making only infrastructure-level changes without modifying application code.
+
+The deployment was validated end-to-end, including service exposure using OpenShift Routes and CI/CD integration through Jenkins. All components were verified to be running and accessible.
+
+This exercise highlights the importance of understanding platform-specific networking and deployment differences while maintaining consistency through version control and automation.
+
+Overall, the project reflects practical experience in Kubernetes, OpenShift, and DevOps workflows, including troubleshooting, pipeline integration, and environment migration.
+
+---
+
