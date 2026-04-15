@@ -191,5 +191,5 @@ This exercise highlights the importance of understanding platform-specific netwo
 
 Overall, the project reflects practical experience in Kubernetes, OpenShift, and DevOps workflows, including troubleshooting, pipeline integration, and environment migration.
 
----
+
 
