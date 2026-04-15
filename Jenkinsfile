@@ -2,19 +2,36 @@ pipeline {
     agent any
 
     stages {
-        stage('Deploy To Kubernetes') {
+        stage('Deploy To OpenShift') {
             steps {
-                withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: 'EKS-1', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', serverUrl: 'https://3D84EA71F12AA5234B03557A8BF92E5D.gr7.us-east-2.eks.amazonaws.com']]) {
-                    sh "kubectl apply -f deployment-service.yml"
-                    
+                withCredentials([string(credentialsId: 'openshift-token', variable: 'TOKEN')]) {
+                    sh '''
+                    oc login https://api.rm2.thpm.p1.openshiftapps.com:6443 \
+                    --token=$TOKEN \
+                    --insecure-skip-tls-verify=true
+
+                    oc project suryadasari31-dev
+
+                    oc apply -f deployment-service.yml
+                    '''
                 }
             }
         }
         
         stage('verify Deployment') {
             steps {
-                withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: 'EKS-1', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', serverUrl: 'https://3D84EA71F12AA5234B03557A8BF92E5D.gr7.us-east-2.eks.amazonaws.com']]) {
-                    sh "kubectl get svc -n webapps"
+                withCredentials([string(credentialsId: 'openshift-token', variable: 'TOKEN')]) {
+                    sh '''
+                    oc login https://api.rm2.thpm.p1.openshiftapps.com:6443 \
+                    --token=$TOKEN \
+                    --insecure-skip-tls-verify=true
+
+                    oc project suryadasari31-dev
+
+                    oc get pods
+                    oc get svc
+                    oc get route
+                    '''
                 }
             }
         }
